@@ -81,7 +81,7 @@ int main() {
         std::cin >> choixID;
 
 
-        pokecombat[choix] = getOnePokemonOfPokeball(choixID);
+    //    pokecombat[choix] = getOnePokemonOfPokeball(choixID);
 
     }
 
