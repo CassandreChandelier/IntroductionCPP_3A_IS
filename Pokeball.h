@@ -7,17 +7,19 @@
 
 
 class Pokeball : public SetOfPokemon {
-private:
-    Pokemon* tableau[];
 
+private:
+    static int number;
 
 public:
-    Pokemon *getOnePokemonOfPokeball(string name);
-    Pokemon *getOnePokemonOfPokeball(int id);
+
+    Pokeball();
+    void addPokemonInPokeball(Pokemon* pokemon);
+    Pokemon* getOnePokemonOfPokeball(string name);
+    Pokemon* getOnePokemonOfPokeball(int id);
 
     ~Pokeball();
 
-    Pokemon *gettableau(Pokemon *tableau);
 };
 
 #endif //UNTITLED2_POKEBALL_H

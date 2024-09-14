@@ -30,8 +30,6 @@ int main() {
     // TABLEAU DES POKEMONS DE TA POKEBALL
     Pokemon *pokelist[nombrepoke];
 
-    Pokemon* Pokeball::gettableau(pokelist);
-
 
 
     std::cout << "Tu vas choisir qui tu prends dans ta pokeball" << std::endl;
@@ -77,7 +75,13 @@ int main() {
     Pokemon *pokecombat[6];
     for (choix = 0; choix < 6; choix++) {
         int choixID = 0;
-        std::cout << "Choisi un " << choix+1 << " ° Pokemon" << std::endl;
+        if (choix==0) {
+            std::cout << "Choisi un " << choix+1 << "er Pokemon" << std::endl;
+
+        } else {
+            std::cout << "Choisi un " << choix+1 << "eme Pokemon" << std::endl;
+
+        }
         std::cin >> choixID;
 
 

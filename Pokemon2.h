@@ -31,13 +31,15 @@ public:
 
     ~Pokemon();
 
-    const string &getName() const;
+    const string &getName();
 
     double getHitPoint();
 
     double getattackValue();
 
     double getdefense();
+
+    int getGeneration();
 
     int getId() const;
 };

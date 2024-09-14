@@ -55,7 +55,7 @@ void Pokemon::sustainDamage(int value) {
     " damage. New hitPoint : " << hitPoint << std::endl;
 }
 
-const string &Pokemon::getName() const {
+const string &Pokemon::getName() {
     return name;
 }
 
@@ -72,7 +72,9 @@ double Pokemon::getdefense(){
 
 }
 
-
+int Pokemon::getGeneration(){
+    return generation;
+}
 
 int Pokemon::getId() const {
     return id;
