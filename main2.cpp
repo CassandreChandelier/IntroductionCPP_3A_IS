@@ -19,18 +19,20 @@ int main() {
 
     // std::cout <<"Nombre de Pokemon en memoire : " << Pokemon::getNumberOfPokemon() << std::endl;
 
+  /*
+   *   Entrée : Sélection des Pokemons
+   *   combien de pokemons dans la pokeball
+   */
 
 
-    // combien de pokemons dans la pokeball
 
     std::cout << "Combien de pokemon veux-tu dans ta pokeball ?" << std::endl;
     int nombrepoke = 0;
     std::cin >> nombrepoke;
 
-    // TABLEAU DES POKEMONS DE TA POKEBALL
-    Pokemon *pokelist[nombrepoke];
+    // TABLEAU DES POKEMONS DE TA POKEBALL ET DE CELLE DE TON ADVERSAIRE
 
-
+    Pokeball* pokelist = new Pokeball();
 
     std::cout << "Tu vas choisir qui tu prends dans ta pokeball" << std::endl;
 
@@ -45,8 +47,8 @@ int main() {
         string answer = "";
         std::cin >> answer;
 
-        if (answer == "oui"||"o") {
-            pokelist[state] = idpok2;
+        if (answer == "oui"||answer == "o") {
+            pokelist->addPokemonInPokeball(idpok2);
             state++;
         }
 
@@ -56,24 +58,32 @@ int main() {
 
     int display = 0;
 
-    while (display != nombrepoke) {
-        Pokemon *idpok2 = Pokedex::getInstance()->getOnePokemonById(display);
-        std::cout << "Pokemon: " << pokelist[display]->getName()
-        <<" | \t ID : " << pokelist[display]->getId()
-        <<" | \t hitPoint : " << pokelist[display]->getHitPoint()
-        <<" | \t attackValue : " << pokelist[display]->getattackValue()
-        <<" | \t defense : " << pokelist[display]->getdefense()
-        << std::endl;
+    Pokemon *idpok2 = pokelist->getFirstPokemon();
+
+    while (idpok2 != nullptr) {
+
+        std::cout << "Pokemon: " << idpok2->getName()
+                  <<" | \t ID : " << idpok2->getId()
+                  <<" | \t hitPoint : " << idpok2->getHitPoint()
+                  <<" | \t attackValue : " << idpok2->getattackValue()
+                  <<" | \t defense : " << idpok2->getdefense()
+                  << std::endl;
         display ++;
+
+        idpok2 = pokelist->getNextPokemon();
     }
 
-    // CHOIX DES POKEMONS POUR LE COMBAT
+
+    /*
+     *   CHOIX DES POKEMONS POUR LE COMBAT
+     */
+
 
     std::cout << "Qui veux-tu envoyer au combat ?  Choisis 6 pokemons avec leur ID ! "  << std::endl;
 
     int choix = 0;
-    Pokemon *pokecombat[6];
-    for (choix = 0; choix < 6; choix++) {
+    int pokesquad[6];
+    while (choix < 6) {
         int choixID = 0;
         if (choix==0) {
             std::cout << "Choisi un " << choix+1 << "er Pokemon" << std::endl;
@@ -83,12 +93,70 @@ int main() {
 
         }
         std::cin >> choixID;
-
-
-    //    pokecombat[choix] = getOnePokemonOfPokeball(choixID);
+        Pokemon* poke = pokelist->getOnePokemonById(choixID);
+        if (poke== nullptr) {
+            std::cout << "Aucun pokemon ne correspond a cet indice!!? recommencez " << std::endl;
+        } else {
+            pokesquad[choix]=choixID;
+            choix++;
+        }
 
     }
 
+    for(int i=0; i<6; i++) std::cout << "pokesquad " << i <<" est : "<< pokesquad[i] <<std::endl;
+
+
+
+
+    /*
+     *
+     *   ADVERSAIRE
+     *
+     * CREATION DE L'EQUIPE ADVERSE
+     *
+     *
+     */
+
+    Pokeball* pokesquadEnemy = new Pokeball();
+
+    int stateEnemy = 0;
+    do {
+        int aleatoire = rand() % 721 + 1;
+        Pokemon *idpok2 = Pokedex::getInstance()->getOnePokemonById(aleatoire);
+
+        pokesquadEnemy->addPokemonInPokeball(idpok2);
+        stateEnemy++;
+
+    } while (stateEnemy < 6);
+
+    Pokemon * poke = pokesquadEnemy->getFirstPokemon();
+    while (poke != nullptr) {
+
+        std::cout << "Pokemon adverse : " << poke->getName() << std::endl;
+        poke = pokesquadEnemy->getNextPokemon();
+    }
+
+    //  Beginner=0 -> Je commence,  1 -> l'adversaire commence
+ //   int Beginner = rand() % 2;
+
+    /*
+     *  ATTAQUE !!!!!
+     */
+
+    std::cout<< " DEBUG : Premiere selection adv" << std::endl;
+    Pokemon * sonPoke = pokesquadEnemy->getFirstPokemon();
+
+    for (int i=0;i<6;i++){
+        std::cout<< " Round " << i << " :" << std::endl;
+        Pokemon * monPoke = pokelist->getOnePokemonById(pokesquad[i]);
+
+        std::cout<< " Votre Pokemon: " << monPoke->getName() <<
+                    " va affronter: " << sonPoke->getName() << std::endl;
+
+        // combat entre monPoke et sonPoke
+
+        sonPoke = pokesquadEnemy->getNextPokemon();
+    }
 
 
 

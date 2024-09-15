@@ -10,13 +10,22 @@ class Pokeball : public SetOfPokemon {
 
 private:
     static int number;
+    int NextPoke =0;
 
 public:
 
     Pokeball();
     void addPokemonInPokeball(Pokemon* pokemon);
-    Pokemon* getOnePokemonOfPokeball(string name);
-    Pokemon* getOnePokemonOfPokeball(int id);
+    void DeletePokemonFromPokeball(Pokemon* pokemon);
+    void DeletePokemonFromPokeballByName(string name);
+    void DeletePokemonFromPokeballById(int id) ;
+    Pokemon* takePokemonOutPokeball(string name);
+    Pokemon* takePokemonOutPokeball(int id);
+    Pokemon* getOnePokemonByName(string name) override;
+    Pokemon* getOnePokemonById(int id) override;
+    Pokemon* getFirstPokemon();
+    Pokemon* getNextPokemon();
+
 
     ~Pokeball();
 
