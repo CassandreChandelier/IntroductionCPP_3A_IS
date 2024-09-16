@@ -53,14 +53,14 @@ int main() {
     do {
         int aleatoire = rand() % 721 + 1;
         Pokemon *idpok2 = Pokedex::getInstance()->getOnePokemonById(aleatoire);
-        sleep_for(seconds(1));
+        //sleep_for(seconds(1));
         std::cout <<  BOLD << "Veux-tu le Pokemon : " << idpok2->getName() << " dans ta pokeball ?" << RESET <<  std::endl;
 
         string answer = "";
         std::cin >> answer;
 
         if (answer == "oui"||answer == "o") {
-            sleep_for(seconds(1));
+            //sleep_for(seconds(1));
             pokelist->addPokemonInPokeball(idpok2);
             state++;
         }
@@ -96,27 +96,39 @@ int main() {
 
     std::cout << BOLD << "Qui veux-tu envoyer au combat ?  Choisis 6 pokemons avec leur ID ! "  << RESET << std::endl;
 
+    int CHOIX[6] = {0};
+
     int choix = 0;
     Pokeball* pokesquad = new Pokeball();            // C EST LES 6 POKEMONS QUE J ENVOIE AU COMBAT
-
 
     while (choix < 6) {
         int choixID = 0;
         if (choix==0) {
-            std::cout << BOLD << "Choisi un " << choix+1 << "er Pokemon" << std::endl;
+            std::cout << BOLD << "Choisi un " << choix+1 << "er Pokemon" << RESET << std::endl;
 
         } else {
-            std::cout << "Choisi un " << choix+1 << "eme Pokemon"  << std::endl;
+            std::cout << BOLD << "Choisi un " << choix+1 << "eme Pokemon" << RESET << std::endl;
 
         }
         std::cin >> choixID;
-        Pokemon* poke = pokelist->getOnePokemonById(choixID);
-        if (poke== nullptr) {
-            std::cout << "Aucun pokemon ne correspond a cet indice!!? recommencez " << RESET << std::endl;
+        bool found=false;
+        for(int i=0; i<6;i++) {
+            if (CHOIX[i]==choixID) { found=true;}
+        }
+
+        if (!found) {
+            Pokemon *poke = pokelist->getOnePokemonById(choixID);
+            if (poke == nullptr) {
+                std::cout << RED << "Aucun pokemon ne correspond a cet indice!!? recommencez " << RESET << std::endl;
+            } else {
+                pokesquad->addPokemonInPokeball(poke);
+                std::cout << BLUE << poke->getName()  << "  rentre en jeu !!" << RESET << std::endl;
+                CHOIX[choix]=choixID;
+                choix++;
+            }
         } else {
-            pokesquad->addPokemonInPokeball(poke);
-            std::cout << poke->getName() << "  rentre en jeu !!" <<  std::endl;
-            choix++;
+            std::cout << RED << "Ce pokemon a deja ete selectionne !!" << RESET << std::endl;
+
         }
 
     }
@@ -125,8 +137,8 @@ int main() {
 
     Pokemon* pokequip = pokesquad->getFirstPokemon();
     for(int i=0; i<6; i++) {
-        std::cout << "Votre pokemon numero " << i <<" est : " << pokequip->getName() <<std::endl;
-        pokesquad->getNextPokemon();
+        std::cout << BOLD << "Votre pokemon numero " << i <<" est : " << pokequip->getName() << RESET << std::endl;
+        pokequip = pokesquad->getNextPokemon();
     }
 
     /*
@@ -169,50 +181,67 @@ int main() {
     Pokemon * monPoke = pokesquad->getFirstPokemon();
 
 
-    std::cout << "A chaque round, le joueur qui "
+    sleep_for(seconds(3));
+
+    std::cout << BOLD << "  " << RESET << std::endl;
+    std::cout << BOLD << "A chaque round, le joueur qui "
                  "commence est determine aleatoirement : "
                  "un nombre est tire entre 0 et 1. "
                  "Si c'est 0, le joueur commence, "
-                 "si c'est 1, l'ordinateur prend la main. " << std::endl;
+                 "si c'est 1, l'ordinateur prend la main. " << RESET << std::endl;
+
+    sleep_for(seconds(10));
 
     int successPlayer = 0;
+    string answer;
 
-    for (int i=0;i<6;i++){
-        std::cout<< UNDERLINE<<WHITE<< "Combat nr " << i+1 << " :" << RESET << std::endl;
-        std::cout<< " Votre Pokemon: " << monPoke->getName() <<
-                    "   ** VS **   " << sonPoke->getName() << std::endl;
+    for (int i=0;i<6;i++) {
+        std::cout << UNDERLINE << WHITE << "Combat nr " << i + 1 << " :" << RESET << std::endl;
+        std::cout << CYAN << "Mon Pokemon: " << monPoke->getName() << RESET << "   ** VS **  "
+                  << MAGENTA << "Son Pokemon: " << sonPoke->getName() << RESET << std::endl;
+        std::cout << " " << std::endl;
+        sleep_for(seconds(1));
+        std::cout << BOLD << "Are you ready ?" << RESET << std::endl;
 
+        std::cin >> answer;
+        if (answer == "YES" || answer == "yes" || answer == "y") {
 
-        // combat entre monPoke et sonPoke
-        int beginner = rand() % 2;
+            // combat entre monPoke et sonPoke
+            int beginner = rand() % 2;
 
-        int hitPoint = 1000;
+            int hitPoint = 1000;
 
-        while (hitPoint > 0 ) {
+            while (hitPoint > 0) {
 
-            if (beginner == 0) {
-                std::cout << "Mon pokemon attaque en premier : " << std::endl;
-                monPoke->attack(*sonPoke);
-                hitPoint = sonPoke->getHitPoint();
-                if (hitPoint <=0) {
-                    successPlayer++;
-                    std::cout << "Son pokemon " << sonPoke->getName() <<  " est mort" << std::endl;
+                if (beginner == 0) {
+                    std::cout << "Mon pokemon attaque en premier : " << std::endl;
+                    sleep_for(milliseconds(500));
+                    monPoke->attack(*sonPoke);
+                    hitPoint = sonPoke->getHitPoint();
+                    if (hitPoint <= 0) {
+                        successPlayer++;
+                        std::cout << "Son pokemon " << sonPoke->getName() << " est mort" << std::endl;
+                        std::cout << " " << std::endl;
+                    }
+                } else {
+                    std::cout << "Son pokemon attaque en premier : " << std::endl;
+                    sleep_for(milliseconds (500));
+                    sonPoke->attack(*monPoke);
+                    hitPoint = monPoke->getHitPoint();
+                    if (hitPoint <= 0) {
+                        std::cout << "Mon pokemon " << monPoke->getName() << " est mort" << std::endl;
+                        std::cout << " " << std::endl;
+                    }
                 }
-            } else {
-                std::cout << "Son pokemon attaque en premier : " << std::endl;
-                sonPoke->attack(*monPoke);
-                hitPoint = monPoke->getHitPoint();
-                if (hitPoint <=0) {
-                    std::cout << "Mon pokemon " << monPoke->getName() <<  " est mort" << std::endl;
-                }
+                sleep_for(seconds(1));
+                beginner = (beginner == 0) ? 1 : 0;
+
             }
-            sleep_for(seconds(1));
-            beginner = (beginner==0)? 1:0;
+            monPoke = pokesquad->getNextPokemon();
+            sonPoke = pokesquadEnemy->getNextPokemon();
+
 
         }
-        monPoke = pokesquad->getNextPokemon();
-        sonPoke = pokesquadEnemy->getNextPokemon();
-
 
     }
 
