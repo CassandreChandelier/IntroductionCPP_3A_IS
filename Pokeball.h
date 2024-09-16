@@ -9,11 +9,11 @@
 class Pokeball : public SetOfPokemon {
 
 private:
-    static int number;
+
     int NextPoke =0;
 
 public:
-
+    int number;
     Pokeball();
     void addPokemonInPokeball(Pokemon* pokemon);
     void DeletePokemonFromPokeball(Pokemon* pokemon);

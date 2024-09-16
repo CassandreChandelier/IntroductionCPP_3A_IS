@@ -3,14 +3,15 @@
 #include <iostream>
 #include "Pokeball.h"
 
-Pokeball::Pokeball(){}
-
-int Pokeball::number=0;
+Pokeball::Pokeball(){
+    number=0;
+}
 
 void Pokeball::addPokemonInPokeball(Pokemon* pokemon){
     arrayOfPokemon.push_back(new Pokemon(pokemon->getName(),pokemon->getId(),pokemon->getHitPoint(),
                                          pokemon->getattackValue(),pokemon->getdefense(),pokemon->getGeneration()));
     //std::cout << "[DEBUG]: Ajout de   " << pokemon->getName() << std::endl;
+
     number ++;
 }
 
@@ -95,7 +96,8 @@ Pokemon* Pokeball::getFirstPokemon() {
 Pokemon* Pokeball::getNextPokemon() {
     if (number > NextPoke) {
             NextPoke ++;
-            //std::cout << "[DEBUG]: get next de   " << NextPoke << std::endl;
+            //std::cout << "number  " << number << ";  NextPoke " << NextPoke << std::endl;
+            //std::cout << "[DEBUG]: get next de   " << NextPoke-1 << std::endl;
             return arrayOfPokemon.at((NextPoke-1));
     } else {
         //std::cout << "[DEBUG]: get next fin   " << std::endl;
