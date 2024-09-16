@@ -36,7 +36,13 @@ int main() {
    *   combien de pokemons dans la pokeball
    */
 
-    std::cout <<  BOLD << "How many pokemons do you want in your pokeball ?" << RESET <<  std::endl;
+    sleep_for(seconds(1));
+
+    std::cout <<  BOLD << "You are having a road in Pokemon Land... " << RESET <<  std::endl;
+
+    sleep_for(seconds(3));
+
+    std::cout <<  BOLD << "How many pokemons do you want in your pokeball ? Give a number higher than 6" << RESET <<  std::endl;
     int nombrepoke = 0;
     std::cin >> nombrepoke;
 
@@ -53,12 +59,12 @@ int main() {
         int aleatoire = rand() % 721 + 1;
         Pokemon *idpok2 = Pokedex::getInstance()->getOnePokemonById(aleatoire);
         //sleep_for(seconds(1));
-        std::cout <<  BOLD << "You meet a wild " << idpok2->getName() << ". Do you want him ? Answer by YES or yes or y" << RESET <<  std::endl;
+        std::cout <<  BOLD << "You meet a wild " << idpok2->getName() << ". Do you want him ? Answer by YES, yes, Y, y" << RESET <<  std::endl;
 
         string answer = "";
         std::cin >> answer;
 
-        if (answer == "YES"||answer == "yes"||answer == "y") {
+        if (answer == "YES"||answer == "yes"||answer == "y"||answer == "Y") {
             //sleep_for(seconds(1));
             pokelist->addPokemonInPokeball(idpok2);
             state++;
@@ -139,7 +145,7 @@ int main() {
 
     Pokemon* pokequip = pokesquad->getFirstPokemon();
     for(int i=0; i<6; i++) {
-        std::cout << BOLD << "Your Pokemon number " << i <<" is : " << pokequip->getName() << RESET << std::endl;
+        std::cout << BOLD << "Your Pokemon number " << i+1 <<" is : " << pokequip->getName() << RESET << std::endl;
         pokequip = pokesquad->getNextPokemon();
     }
 
@@ -195,7 +201,7 @@ int main() {
                   << MAGENTA << "Its Pokemon: " << sonPoke->getName() << RESET << std::endl;
         std::cout << " " << std::endl;
         sleep_for(seconds(1));
-        std::cout << BOLD << "Are you ready ? Answer by YES or yes or y or Y " << RESET << std::endl;
+        std::cout << BOLD << "Are you ready ? Answer by YES, yes, Y, y " << RESET << std::endl;
 
         std::cin >> answer;
         if (answer == "YES" || answer == "yes" || answer == "y" || answer == "Y") {
