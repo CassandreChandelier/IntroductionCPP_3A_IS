@@ -125,7 +125,7 @@ int main() {
         }
 
         if (!found) {
-            Pokemon *poke = pokelist->getOnePokemonById(choixID);
+            Pokemon *poke = pokelist->takePokemonOutPokeball(choixID);
             if (poke == nullptr) {
                 std::cout << RED << " No Pokemon matches this ID!! Please try again. " << RESET << std::endl;
             } else {
@@ -220,7 +220,7 @@ int main() {
                     hitPoint = sonPoke->getHitPoint();
                     if (hitPoint <= 0) {
                         successPlayer++;
-                        std::cout  << "Its Pokemon "  << MAGENTA << sonPoke->getName() << RESET << " is dead"  << std::endl;
+                        std::cout  << "Its Pokemon "  << MAGENTA << sonPoke->getName() << RESET << " is K.O."  << std::endl;
                         std::cout << " " << std::endl;
                     }
                 } else {
@@ -229,14 +229,16 @@ int main() {
                     sonPoke->attack(*monPoke);
                     hitPoint = monPoke->getHitPoint();
                     if (hitPoint <= 0) {
-                        std::cout <<  "My Pokemon " << CYAN << monPoke->getName() << RESET << " is dead" << std::endl;
+                        std::cout <<  "My Pokemon " << CYAN << monPoke->getName() << RESET << " is K.O." << std::endl;
                         std::cout << " " << std::endl;
                     }
                 }
+
                 sleep_for(seconds(1));
                 beginner = (beginner == 0) ? 1 : 0;
 
             }
+            pokelist->addPokemonInPokeball(monPoke);
             monPoke = pokesquad->getNextPokemon();
             sonPoke = pokesquadEnemy->getNextPokemon();
 
@@ -244,6 +246,29 @@ int main() {
         }
 
     }
+
+
+    std::cout << BOLD << RED << "You have in your pokeball:" << RESET << std::endl;
+
+    int display2 = 0;
+
+    // Affichage de la Pokelist
+
+    Pokemon *idpok3 = pokelist->getFirstPokemon();
+
+    while (idpok3 != nullptr) {
+
+        std::cout << RED << "Pokemon: " << idpok3->getName()
+                  <<" | \t ID : " << idpok3->getId()
+                  <<" | \t hitPoint : " << idpok3->getHitPoint()
+                  <<" | \t attackValue : " << idpok3->getattackValue()
+                  <<" | \t defense : " << idpok3->getdefense()
+                  << RESET << std::endl;
+        display2 ++;
+
+        idpok3 = pokelist->getNextPokemon();
+    }
+
 
     if (successPlayer > 3){
         std::cout << CYAN << "Yeees, I win !! " << RESET << std::endl;

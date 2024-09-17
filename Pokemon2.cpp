@@ -1,5 +1,6 @@
 
 #include "Pokemon2.h"
+#include <cmath>
 
 #include <iostream>
 
@@ -38,10 +39,11 @@ Pokemon::~Pokemon() {
 
 void Pokemon::attack(Pokemon &anotherPokemon) {
     if (this->attackValue > anotherPokemon.defense){
-        anotherPokemon.sustainDamage(this->attackValue-anotherPokemon.defense);
+        anotherPokemon.sustainDamage(this->attackValue-(anotherPokemon.defense/2));
     }
     else{
-        std::cout << "Attack missed ! " << std::endl;
+        anotherPokemon.sustainDamage(10);
+        //std::cout << "Attack missed ! " << std::endl;
     }
 }
 
